@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Health Reminder System</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- PAGE: REGISTER -->
+<div class="page active" id="page-register">
+  <div class="main-content">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-icon">🩺</div>
+          <h1>Create Account</h1>
+          <p>Your personal health monitoring starts here</p>
+        </div>
+        <div class="alert" id="reg-alert"></div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" placeholder="Your full name" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="reg-email" placeholder="you@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="Min. 6 characters" />
+        </div>
+        <button class="btn btn-primary" onclick="handleRegister()">
+          Create My Health Account
+        </button>
+        <div class="auth-switch">
+          Already have an account? <a onclick="showPage('page-login')">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: LOGIN -->
+<div class="page" id="page-login">
+  <div class="main-content">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-icon">💚</div>
+          <h1>Welcome Back</h1>
+          <p>Sign in to check your health dashboard</p>
+        </div>
+        <div class="alert" id="login-alert"></div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="login-email" placeholder="you@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Your password" />
+        </div>
+        <button class="btn btn-primary" onclick="handleLogin()">
+          Sign In
+        </button>
+        <div class="auth-switch">
+          New user? <a onclick="showPage('page-register')">Create Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: HEALTH FORM -->
+<div class="page" id="page-health-form">
+  <nav class="navbar">
+    <div class="logo"><span>🩺</span> Smart Health</div>
+    <div class="nav-user">
+      <span id="nav-username"></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+  <div class="main-content">
+    <div class="health-container">
+      <h1 class="page-title">Health Assessment</h1>
+      <p class="page-subtitle">Fill in your details for a personalized health analysis.</p>
+      <div class="alert" id="form-alert"></div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">👤</div>
+          <div><h2>Personal Information</h2><p>Basic details for accurate assessment</p></div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label>Age (years)</label>
+            <input type="number" id="age" placeholder="e.g. 28" />
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="gender">
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" id="weight" placeholder="e.g. 70" />
+          </div>
+          <div class="form-group">
+            <label>Height (cm)</label>
+            <input type="number" id="height" placeholder="e.g. 170" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">❤️</div>
+          <div><h2>Vital Signs</h2><p>Leave blank if you don't know</p></div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label>Blood Pressure Systolic (mmHg)</label>
+            <input type="number" id="bp-systolic" placeholder="e.g. 120" />
+          </div>
+          <div class="form-group">
+            <label>Blood Pressure Diastolic (mmHg)</label>
+            <input type="number" id="bp-diastolic" placeholder="e.g. 80" />
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label>Fasting Blood Sugar (mg/dL)</label>
+            <input type="number" id="blood-sugar" placeholder="e.g. 90" />
+          </div>
+          <div class="form-group">
+            <label>Resting Heart Rate (bpm)</label>
+            <input type="number" id="heart-rate" placeholder="e.g. 72" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">🏃</div>
+          <div><h2>Lifestyle Habits</h2><p>Your daily habits shape your health</p></div>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label>Sleep Hours per Night</label>
+            <input type="number" id="sleep-hours" placeholder="e.g. 7" />
+          </div>
+          <div class="form-group">
+            <label>Exercise Days per Week</label>
+            <input type="number" id="exercise-per-week" placeholder="e.g. 3" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Do you smoke or drink alcohol?</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" id="smoking" />
+              <span>🚬 Smoking</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="alcohol" />
+              <span>🍺 Alcohol</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">📋</div>
+          <div><h2>Current Symptoms</h2><p>Describe any discomfort (optional)</p></div>
+        </div>
+        <div class="form-group">
+          <label>Symptoms</label>
+          <textarea id="symptoms" placeholder="e.g. Frequent headaches, fatigue..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="submit-btn" onclick="handleHealthSubmit()" style="font-size:1.05rem; padding:16px;">
+        🔍 Analyze My Health
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: RESULTS -->
+<div class="page" id="page-results">
+  <nav class="navbar">
+    <div class="logo"><span>🩺</span> Smart Health</div>
+    <div class="nav-user">
+      <span id="nav-username2"></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+  <div class="main-content">
+    <div class="results-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h1 class="page-title" style="margin-bottom:0">Your Health Report</h1>
+          <p class="page-subtitle" style="margin-bottom:0">Generated on <span id="report-date"></span></p>
+        </div>
+        <button class="btn btn-primary" onclick="showPage('page-health-form')" style="width:auto; padding:12px 24px; font-size:0.9rem;">
+          ✏️ Re-assess
+        </button>
+      </div>
+
+      <div class="status-banner" id="status-banner">
+        <div class="status-emoji" id="status-emoji">✅</div>
+        <div class="status-info">
+          <h2 id="status-title">Analyzing...</h2>
+          <p id="status-desc">Please wait</p>
+        </div>
+        <div class="recovery-badge" id="recovery-badge" style="display:none">
+          <div class="days" id="recovery-days">0</div>
+          <div class="label">days to<br>recovery</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">⚖️</div>
+          <div><h2>Body Mass Index (BMI)</h2><p>Weight status indicator</p></div>
+        </div>
+        <div class="bmi-display">
+          <div>
+            <div class="bmi-value" id="bmi-value">–</div>
+            <div class="bmi-label" id="bmi-label">–</div>
+          </div>
+          <div class="bmi-scale">
+            <div class="bmi-bar">
+              <div class="bmi-marker" id="bmi-marker" style="left:0%"></div>
+            </div>
+            <div class="bmi-range-labels">
+              <span>Underweight &lt;18.5</span>
+              <span>Normal 18.5–25</span>
+              <span>Overweight 25–30</span>
+              <span>Obese &gt;30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">🔍</div>
+          <div><h2>Health Issues Detected</h2><p>Areas that need your attention</p></div>
+        </div>
+        <div class="issues-grid" id="issues-grid"></div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">💡</div>
+          <div><h2>Your Recovery Instructions</h2><p>Follow these to improve your health</p></div>
+        </div>
+        <ul class="instruction-list" id="instruction-list"></ul>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">🗓️</div>
+          <div><h2>Your Daily Health Schedule</h2><p>Personalized routine to follow every day</p></div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Activity</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var API_BASE = 'http://localhost:5000/api';
+
+function getToken() {
+  return localStorage.getItem('health_token');
+}
+function getUser() {
+  var u = localStorage.getItem('health_user');
+  return u ? JSON.parse(u) : null;
+}
+function saveSession(token, user) {
+  localStorage.setItem('health_token', token);
+  localStorage.setItem('health_user', JSON.stringify(user));
+}
+function clearSession() {
+  localStorage.removeItem('health_token');
+  localStorage.removeItem('health_user');
+}
+function apiCall(endpoint, method, body) {
+  method = method || 'GET';
+  var headers = { 'Content-Type': 'application/json' };
+  var token = getToken();
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  var options = { method: method, headers: headers };
+  if (body) options.body = JSON.stringify(body);
+  return fetch(API_BASE + endpoint, options).then(function(res) {
+    return res.json().then(function(data) {
+      if (!res.ok) throw new Error(data.message || 'Request failed');
+      return data;
+    });
+  });
+}
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function showAlert(elementId, message, type) {
+  type = type || 'error';
+  var el = document.getElementById(elementId);
+  el.textContent = message;
+  el.className = 'alert ' + type;
+}
+function clearAlert(elementId) {
+  var el = document.getElementById(elementId);
+  el.className = 'alert';
+  el.textContent = '';
+}
+
+function handleRegister() {
+  clearAlert('reg-alert');
+  var name = document.getElementById('reg-name').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var password = document.getElementById('reg-password').value;
+  if (!name || !email || !password)
+    return showAlert('reg-alert', 'Please fill in all fields.');
+  if (password.length < 6)
+    return showAlert('reg-alert', 'Password must be at least 6 characters.');
+  apiCall('/auth/register', 'POST', { full_name: name, email: email, password: password })
+    .then(function(data) {
+      saveSession(data.token, data.user);
+      document.getElementById('nav-username').textContent = data.user.full_name;
+      document.getElementById('nav-username2').textContent = data.user.full_name;
+      showPage('page-health-form');
+    })
+    .catch(function(err) {
+      showAlert('reg-alert', err.message);
+    });
+}
+
+function handleLogin() {
+  clearAlert('login-alert');
+  var email = document.getElementById('login-email').value.trim();
+  var password = document.getElementById('login-password').value;
+  if (!email || !password)
+    return showAlert('login-alert', 'Please enter email and password.');
+  apiCall('/auth/login', 'POST', { email: email, password: password })
+    .then(function(data) {
+      saveSession(data.token, data.user);
+      document.getElementById('nav-username').textContent = data.user.full_name;
+      document.getElementById('nav-username2').textContent = data.user.full_name;
+      showPage('page-health-form');
+    })
+    .catch(function(err) {
+      showAlert('login-alert', err.message);
+    });
+}
+
+function handleHealthSubmit() {
+  clearAlert('form-alert');
+  var age = document.getElementById('age').value;
+  var gender = document.getElementById('gender').value;
+  var weight = document.getElementById('weight').value;
+  var height = document.getElementById('height').value;
+  var sleep_hours = document.getElementById('sleep-hours').value;
+  var exercise_per_week = document.getElementById('exercise-per-week').value;
+
+  if (!age || !gender || !weight || !height)
+    return showAlert('form-alert', 'Please fill in age, gender, weight and height.');
+  if (!sleep_hours || !exercise_per_week)
+    return showAlert('form-alert', 'Please fill in sleep hours and exercise days.');
+
+  var payload = {
+    age: parseInt(age),
+    gender: gender,
+    weight: parseFloat(weight),
+    height: parseFloat(height),
+    blood_pressure_systolic: parseInt(document.getElementById('bp-systolic').value) || null,
+    blood_pressure_diastolic: parseInt(document.getElementById('bp-diastolic').value) || null,
+    blood_sugar: parseFloat(document.getElementById('blood-sugar').value) || null,
+    heart_rate: parseInt(document.getElementById('heart-rate').value) || null,
+    sleep_hours: parseFloat(sleep_hours),
+    exercise_per_week: parseInt(exercise_per_week),
+    smoking: document.getElementById('smoking').checked,
+    alcohol: document.getElementById('alcohol').checked,
+    symptoms: document.getElementById('symptoms').value.trim()
+  };
+
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = 'Analyzing your health...';
+
+  apiCall('/health/submit', 'POST', payload)
+    .then(function(data) {
+      renderResults(data);
+      showPage('page-results');
+    })
+    .catch(function(err) {
+      showAlert('form-alert', err.message || 'Could not analyze. Please try again.');
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '🔍 Analyze My Health';
+    });
+}
+
+function renderResults(data) {
+  var bmi = data.bmi;
+  var issues = data.issues;
+  var instructions = data.instructions;
+  var health_status = data.health_status;
+  var recovery_days = data.recovery_days;
+  var schedule = data.schedule;
+
+  document.getElementById('report-date').textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  var banner = document.getElementById('status-banner');
+  banner.className = 'status-banner ' + health_status;
+
+  var configs = {
+    healthy: { emoji: '✅', title: 'You Are Healthy!', desc: 'Great job! Your vitals look good.' },
+    at_risk: { emoji: '⚠️', title: 'You Are at Risk', desc: 'Some areas need attention. Follow the instructions below.' },
+    unhealthy: { emoji: '🚨', title: 'Health Issues Detected', desc: 'Please follow all instructions and consult a doctor.' }
+  };
+
+  var cfg = configs[health_status] || configs.healthy;
+  document.getElementById('status-emoji').textContent = cfg.emoji;
+  document.getElementById('status-title').textContent = cfg.title;
+  document.getElementById('status-desc').textContent = cfg.desc;
+
+  if (recovery_days > 0) {
+    document.getElementById('recovery-days').textContent = recovery_days;
+    document.getElementById('recovery-badge').style.display = 'block';
+  } else {
+    document.getElementById('recovery-badge').style.display = 'none';
+  }
+
+  document.getElementById('bmi-value').textContent = bmi;
+  var bmiLabel = 'Normal Weight';
+  var markerPct = 30;
+  if (bmi < 18.5) { bmiLabel = 'Underweight'; markerPct = 10; }
+  else if (bmi < 25) { bmiLabel = 'Normal Weight'; markerPct = 30; }
+  else if (bmi < 30) { bmiLabel = 'Overweight'; markerPct = 60; }
+  else { bmiLabel = 'Obese'; markerPct = 85; }
+  document.getElementById('bmi-label').textContent = bmiLabel;
+  setTimeout(function() {
+    document.getElementById('bmi-marker').style.left = markerPct + '%';
+  }, 300);
+
+  var issuesGrid = document.getElementById('issues-grid');
+  issuesGrid.innerHTML = '';
+  if (issues && issues.length > 0) {
+    issues.forEach(function(issue, i) {
+      var card = document.createElement('div');
+      card.className = 'issue-card ' + (issue.severity || 'medium');
+      card.style.animationDelay = (i * 0.1) + 's';
+      card.innerHTML = '<div class="issue-label">' + issue.label + '</div>' +
+        '<div class="issue-detail">' + issue.detail + '</div>' +
+        '<span class="severity-pill ' + (issue.severity || 'medium') + '">' + (issue.severity || 'medium') + ' severity</span>';
+      issuesGrid.appendChild(card);
+    });
+  } else {
+    issuesGrid.innerHTML = '<div class="healthy-message" style="grid-column:1/-1"><div style="font-size:3rem">🎉</div><h3>No Health Issues Found!</h3><p>Your vitals are within healthy ranges!</p></div>';
+  }
+
+  var instList = document.getElementById('instruction-list');
+  instList.innerHTML = '';
+  var icons = { high: '🔴', medium: '🟡', low: '🟢' };
+  instructions.forEach(function(inst, i) {
+    var text = inst.text || inst.instruction || inst;
+    var priority = inst.priority || 'medium';
+    var li = document.createElement('li');
+    li.className = 'instruction-item';
+    li.style.animationDelay = (i * 0.08) + 's';
+    li.innerHTML = '<div class="inst-icon">' + (icons[priority] || '🟡') + '</div>' +
+      '<div class="inst-text">' + text + '</div>' +
+      '<div class="inst-priority ' + priority + '">' + priority + '</div>';
+    instList.appendChild(li);
+  });
+
+  var tbody = document.getElementById('schedule-body');
+  tbody.innerHTML = '';
+  (schedule || []).forEach(function(slot) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><span class="time-chip">⏰ ' + slot.time_slot + '</span></td>' +
+      '<td>' + slot.activity + '</td>' +
+      '<td><span class="cat-pill ' + slot.category + '">' + slot.category + '</span></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function logout() {
+  clearSession();
+  showPage('page-register');
+}
+
+(function init() {
+  var token = getToken();
+  var user = getUser();
+  if (token && user) {
+    document.getElementById('nav-username').textContent = user.full_name;
+    document.getElementById('nav-username2').textContent = user.full_name;
+    showPage('page-health-form');
+  } else {
+    showPage('page-register');
+  }
+})();
+</script>
+</body>
+</html>
